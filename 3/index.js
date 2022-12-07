@@ -18,6 +18,8 @@ const lowerCaseAlphabet = alphaLowerCase.map((x) => String.fromCharCode(x));
 
 const alphabet = [...lowerCaseAlphabet, ...upperCaseAlphabet];
 
+//Part 1
+
 const getSharedItemsPriority = (
 	firstCompartmentItems,
 	secondCompartmentItems
@@ -67,3 +69,51 @@ const getSumOfPriorities = (allPrirotiesValues) => {
 const prioritiesSum = getSumOfPriorities(allPrirotiesValues);
 
 console.log(prioritiesSum);
+
+//Part 2
+
+const divideInGroupsOfThree = (input) => {
+	let newArray = [];
+
+	for (let i = 0; i < input.length / 3; i++) {
+		const inputSlice = input.slice(i * 3, (i + 1) * 3);
+		newArray.push(inputSlice);
+	}
+	return newArray;
+};
+
+const getSharedItem = (first, second, third) => {
+	let commonItem;
+
+	first.forEach((char) => {
+		if (second.includes(char) && third.includes(char)) {
+			commonItem = char;
+		}
+	});
+
+	return commonItem;
+};
+
+const getSumOfBadgePriorities = (groups) => {
+	let badgeProritiesSum = 0;
+
+	groups.forEach((group) => {
+		const groupBadge =
+			alphabet.indexOf(
+				getSharedItem(
+					group[0].split(''),
+					group[1].split(''),
+					group[2].split('')
+				)
+			) + 1;
+		badgeProritiesSum = badgeProritiesSum + groupBadge;
+	});
+
+	return badgeProritiesSum;
+};
+
+const dividedItems = divideInGroupsOfThree(allRucksacks);
+
+const groupsBadgePrioritiesSum = getSumOfBadgePriorities(dividedItems);
+
+console.log(groupsBadgePrioritiesSum);
